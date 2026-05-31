@@ -9,10 +9,15 @@
   ],
   "scripts": {
     "dev": "npm run dev -w @relaystack/api",
-    "dev:api": "npm run dev -w @relaystack/api",
+    "dev:api": "DATABASE_URL=postgresql://relaystack:relaystack_dev_password@127.0.0.1:55432/relaystack npm run dev -w @relaystack/api",
+    "dev:mta": "npm run dev -w @relaystack/mta",
     "dev:worker": "npm run dev -w @relaystack/worker",
     "dev:dashboard": "npm run dev -w @relaystack/dashboard",
     "dev:admin": "npm run dev -w @relaystack/admin",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "DATABASE_URL=postgresql://relaystack:relaystack_dev_password@127.0.0.1:55432/relaystack tsx prisma/seed.ts",
+    "db:bootstrap": "docker compose -f deploy/docker/docker-compose.yml exec -T postgres psql -U relaystack -d relaystack -f - < deploy/docker/schema.sql",
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
@@ -23,8 +28,14 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
+    "@types/nodemailer": "^6.4.17",
+    "Haraka": "^3.2.1",
+    "prisma": "^5.22.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   }
 }

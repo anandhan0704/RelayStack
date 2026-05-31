@@ -1,0 +1,16 @@
+Received: from Anandhas-MacBook-Air.local (Unknown [127.0.0.1])
+	by relaystack.local (Haraka/3.2.1) with ESMTP id 8E8A7D6B-9D39-4CCA-BE20-3E40B7E59523.1
+	envelope-from <noreply@relaystack.local>;
+	Mon, 01 Jun 2026 01:01:23 +0530
+X-Relaystack-Provider: RelayStack MTA
+From: noreply@relaystack.local
+To: anandhansuneev0704@gmail.com
+Subject: RelayStack Haraka Gmail test
+Message-ID: <5a3aa7bf-91a6-3fd2-a93b-f6b64576efba@relaystack.local>
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 31 May 2026 19:31:23 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+This test email was accepted by RelayStack API and captured by the local =
+Haraka MTA.

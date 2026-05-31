@@ -1,6 +1,6 @@
 # RelayStack
 
-RelayStack is a developer-first CPaaS platform concept: a practical mini Twilio + SendGrid + Bandwidth style product for SMS, email, OTP, voice-ready workflows, webhooks, billing, compliance, and provider routing.
+RelayStack is a developer-first CPaaS and ESP platform concept: a practical communications product for SMS, owned email infrastructure, OTP, voice-ready workflows, webhooks, billing, compliance, and provider routing.
 
 Start here:
 
@@ -21,7 +21,7 @@ Build RelayStack first as a provider-backed aggregator platform:
 - Node.js background worker services
 - Angular or React dashboard
 - AWS ECS Fargate
-- SendGrid or Amazon SES for email
+- Owned RelayStack MTA path for email
 - Twilio, Bandwidth, or a local aggregator for SMS
 
 Do not start with SIP trunking or carrier interconnects. Build the API, billing, compliance, routing, webhooks, and dashboard first.
@@ -31,6 +31,7 @@ Do not start with SIP trunking or carrier interconnects. Build the API, billing,
 ```text
 apps/
   api/          Fastify API service
+  mta/          Haraka SMTP service for owned email flow
   worker/       Background worker service
   dashboard/    Customer dashboard
   admin/        Internal admin panel
@@ -49,10 +50,15 @@ tests/          Unit and API tests
 
 ```bash
 npm install
+npm run db:generate
+npm run db:bootstrap
+npm run db:seed
+npm run dev:mta
 npm run dev:api
 ```
 
-The API starts on `http://localhost:3000` by default.
+The API starts on `http://localhost:3100` by default.
+The Haraka MTA listens on `127.0.0.1:2525` and captures local test messages in `apps/mta/var/spool`.
 
 Frontend apps:
 

@@ -1,21 +1,26 @@
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
-import type { MessageService } from "../services/message.service.js";
 import { findCustomerByApiKey } from "../services/api-key.service.js";
+import type { MessageService } from "../services/message.service.js";
 
-const sendSmsSchema = z.object({
-  from: z.string().min(1),
-  to: z.string().min(6),
-  body: z.string().min(1).max(1600),
+const sendEmailSchema = z.object({
+  from: z.string().email(),
+  to: z.string().email(),
+  subject: z.string().min(1).max(998),
+  html: z.string().min(1).optional(),
+  text: z.string().min(1).optional(),
   callbackUrl: z.string().url().optional()
+}).refine((value) => value.html || value.text, {
+  message: "Either html or text is required",
+  path: ["html"]
 });
 
 type Dependencies = {
   messageService: MessageService;
 };
 
-export function registerSmsRoutes(app: FastifyInstance, dependencies: Dependencies): void {
-  app.post("/v1/messages/sms", async (request, reply) => {
+export function registerEmailRoutes(app: FastifyInstance, dependencies: Dependencies): void {
+  app.post("/v1/email/send", async (request, reply) => {
     const authorization = request.headers.authorization;
 
     if (!authorization?.startsWith("Bearer ")) {
@@ -28,7 +33,7 @@ export function registerSmsRoutes(app: FastifyInstance, dependencies: Dependenci
       return reply.code(401).send({ error: "invalid_api_key" });
     }
 
-    const parsed = sendSmsSchema.safeParse(request.body);
+    const parsed = sendEmailSchema.safeParse(request.body);
 
     if (!parsed.success) {
       return reply.code(400).send({
@@ -37,7 +42,7 @@ export function registerSmsRoutes(app: FastifyInstance, dependencies: Dependenci
       });
     }
 
-    const result = await dependencies.messageService.sendSms(customer.id, parsed.data);
+    const result = await dependencies.messageService.sendEmail(customer.id, parsed.data);
 
     return reply.code(202).send(result);
   });

@@ -1,0 +1,11 @@
+{
+  "name": "@relaystack/mta",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "dev": "haraka -c .",
+    "dev:mta": "haraka -c .",
+    "start": "haraka -c ."
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "0AFEBBFC-3B88-4626-8F5C-F864FBE15C7E.1",
+  "mailFrom": "noreply@relaystack.local",
+  "rcptTo": [
+    "developer@example.com"
+  ],
+  "remoteIp": "127.0.0.1",
+  "capturedAt": "2026-05-31T19:16:43.645Z"
+}
