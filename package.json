@@ -1,0 +1,30 @@
+{
+  "name": "relaystack",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Developer-first communication API platform for SMS, email, OTP, webhooks, billing, and provider routing.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @relaystack/api",
+    "dev:api": "npm run dev -w @relaystack/api",
+    "dev:worker": "npm run dev -w @relaystack/worker",
+    "dev:dashboard": "npm run dev -w @relaystack/dashboard",
+    "dev:admin": "npm run dev -w @relaystack/admin",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
