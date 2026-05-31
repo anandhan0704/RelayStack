@@ -18,7 +18,7 @@
   "dependencies": {
     "@relaystack/config": "0.1.0",
     "@relaystack/domain": "0.1.0",
-    "nodemailer": "^6.9.16"
+    "nodemailer": "^8.0.10"
   },
   "devDependencies": {
     "@types/nodemailer": "^6.4.17"
