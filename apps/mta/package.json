@@ -5,7 +5,13 @@
   "type": "commonjs",
   "scripts": {
     "dev": "haraka -c .",
-    "dev:mta": "haraka -c .",
+    "dev:mta": "RELAYSTACK_MTA_MODE=deliver haraka -c .",
+    "dev:capture": "RELAYSTACK_MTA_MODE=capture haraka -c .",
+    "dkim:generate": "bash scripts/generate-dkim.sh",
     "start": "haraka -c ."
+  },
+  "dependencies": {
+    "amqplib": "^0.10.5",
+    "haraka-plugin-dkim": "^1.2.0"
   }
 }

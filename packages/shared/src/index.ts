@@ -8,3 +8,5 @@ export function nowIso(): string {
   return new Date().toISOString();
 }
 
+export { createRelayStackMtaProvider } from "./relaystack-mta.provider.js";
+

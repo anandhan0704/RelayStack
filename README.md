@@ -58,7 +58,17 @@ npm run dev:api
 ```
 
 The API starts on `http://localhost:3100` by default.
-The Haraka MTA listens on `127.0.0.1:2525` and captures local test messages in `apps/mta/var/spool`.
+The Haraka MTA listens on `127.0.0.1:2525`. With `MTA_MODE=deliver` (default), accepted mail is signed with DKIM and delivered to recipient MX servers. With `MTA_MODE=capture`, messages are written to `apps/mta/var/spool` only.
+
+Email sending is asynchronous: the API enqueues jobs on RabbitMQ and the worker submits them to Haraka. Start all three for end-to-end delivery:
+
+```bash
+npm run dev:mta
+npm run dev:worker
+npm run dev:api
+```
+
+See [apps/mta/README.md](apps/mta/README.md) for DKIM key generation and SPF/DMARC DNS setup.
 
 Frontend apps:
 

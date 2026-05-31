@@ -2,6 +2,7 @@ import cors from "@fastify/cors";
 import helmet from "@fastify/helmet";
 import Fastify from "fastify";
 import { loadConfig } from "@relaystack/config";
+import { createQueueClient } from "@relaystack/queue";
 import { registerHealthRoutes } from "./routes/health.routes.js";
 import { registerSmsRoutes } from "./routes/sms.routes.js";
 import { registerEmailRoutes } from "./routes/email.routes.js";
@@ -10,7 +11,6 @@ import { registerMessageRoutes } from "./routes/message.routes.js";
 import { registerDashboardRoutes } from "./routes/dashboard.routes.js";
 import { registerAdminRoutes } from "./routes/admin.routes.js";
 import { createStubSmsProvider } from "./providers/stub-sms.provider.js";
-import { createRelayStackMtaProvider } from "./providers/relaystack-mta.provider.js";
 import { createMessageService } from "./services/message.service.js";
 
 const config = loadConfig();
@@ -26,9 +26,9 @@ await app.register(cors, {
   origin: config.corsOrigin
 });
 
-const emailProvider = createRelayStackMtaProvider(config);
+const queue = await createQueueClient(config.rabbitmqUrl);
 const smsProvider = createStubSmsProvider();
-const messageService = createMessageService({ emailProvider, smsProvider });
+const messageService = createMessageService({ queue, smsProvider });
 
 registerHealthRoutes(app);
 registerCustomerRoutes(app);

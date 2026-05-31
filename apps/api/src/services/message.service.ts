@@ -1,8 +1,10 @@
-import type { EmailProvider, MessageStatus, SendEmailRequest, SendMessageResult, SendSmsRequest, SmsProvider } from "@relaystack/domain";
+import type { EmailSendJob, MessageStatus, SendEmailRequest, SendMessageResult, SendSmsRequest, SmsProvider } from "@relaystack/domain";
+import type { QueueClient } from "@relaystack/queue";
+import { EMAIL_SEND_QUEUE } from "@relaystack/queue";
 import { prisma } from "../db/prisma.js";
 
 type Dependencies = {
-  emailProvider: EmailProvider;
+  queue: QueueClient;
   smsProvider: SmsProvider;
 };
 
@@ -14,8 +16,8 @@ export type MessageService = {
 export function createMessageService(dependencies: Dependencies): MessageService {
   return {
     async sendEmail(customerId, request) {
-      const providerResult = await dependencies.emailProvider.sendEmail(request);
       const cost = estimateEmailCost(request.to);
+      const provider = "RelayStack MTA";
 
       const message = await prisma.$transaction(async (tx) => {
         const wallet = await tx.wallet.findUnique({
@@ -41,9 +43,8 @@ export function createMessageService(dependencies: Dependencies): MessageService
             toAddress: request.to,
             subject: request.subject,
             body: request.html ?? request.text ?? "",
-            status: providerResult.status,
-            provider: providerResult.provider,
-            providerMessageId: providerResult.messageId,
+            status: "queued",
+            provider,
             cost,
             callbackUrl: request.callbackUrl
           }
@@ -61,21 +62,31 @@ export function createMessageService(dependencies: Dependencies): MessageService
         await tx.messageStatusEvent.create({
           data: {
             messageId: createdMessage.id,
-            status: providerResult.status,
-            rawPayload: {
-              provider: providerResult.provider,
-              providerMessageId: providerResult.messageId
-            }
+            status: "queued",
+            rawPayload: { provider }
           }
         });
 
         return createdMessage;
       });
 
+      const job: EmailSendJob = {
+        messageId: message.id,
+        customerId,
+        from: request.from,
+        to: request.to,
+        subject: request.subject,
+        html: request.html,
+        text: request.text,
+        callbackUrl: request.callbackUrl
+      };
+
+      await dependencies.queue.publish(EMAIL_SEND_QUEUE, job);
+
       return {
         messageId: message.id,
-        status: message.status as MessageStatus,
-        provider: providerResult.provider
+        status: "queued" as MessageStatus,
+        provider
       };
     },
 

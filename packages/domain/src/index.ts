@@ -14,12 +14,34 @@ export type SendEmailRequest = {
   html?: string;
   text?: string;
   callbackUrl?: string;
+  relaystackMessageId?: string;
 };
 
 export type SendMessageResult = {
   messageId: string;
   status: MessageStatus;
   provider: string;
+  note?: string;
+};
+
+export type EmailSendJob = {
+  messageId: string;
+  customerId: string;
+  from: string;
+  to: string;
+  subject: string;
+  html?: string;
+  text?: string;
+  callbackUrl?: string;
+};
+
+export type EmailStatusJob = {
+  messageId: string;
+  harakaUuid: string;
+  status: "delivered" | "failed";
+  recipient?: string;
+  response?: string;
+  error?: string;
 };
 
 export type SmsProvider = {

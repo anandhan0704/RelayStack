@@ -10,8 +10,8 @@
   "scripts": {
     "dev": "npm run dev -w @relaystack/api",
     "dev:api": "DATABASE_URL=postgresql://relaystack:relaystack_dev_password@127.0.0.1:55432/relaystack npm run dev -w @relaystack/api",
-    "dev:mta": "npm run dev -w @relaystack/mta",
-    "dev:worker": "npm run dev -w @relaystack/worker",
+    "dev:mta": "RELAYSTACK_MTA_MODE=deliver npm run dev -w @relaystack/mta",
+    "dev:worker": "DATABASE_URL=postgresql://relaystack:relaystack_dev_password@127.0.0.1:55432/relaystack npm run dev -w @relaystack/worker",
     "dev:dashboard": "npm run dev -w @relaystack/dashboard",
     "dev:admin": "npm run dev -w @relaystack/admin",
     "db:generate": "prisma generate",

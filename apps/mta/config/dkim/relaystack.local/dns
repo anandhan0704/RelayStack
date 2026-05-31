@@ -1,0 +1,32 @@
+
+Add this TXT record to the relaystack.local DNS zone.
+
+jun2026._domainkey    IN   TXT   v=DKIM1;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAubHValr4HmNo9zKRdi6p6N0YjeILpqo9d1mcw5wAdzinDf600Uh08hEyjcGz2RtrHj+rAPGETJvQ/OJnGV27KfeKo3TwiX5U6QRPDWgMq1/5VvQxLnCasZU+oIzlEHIvvgMtCuLoeCsXtDzJpAc9LARLI8ADBqoV9nsy5A8ape6lJ3qfBcAnb8Y/CjBbuMLyNuG2O/J53ScQGBkafiiYsxUXct98ADmcBpYbdJUoypImmBm0kC0rKk7J9AGygEyXbPaycaZqCh1AclVQi09EK3KtyGhdJplxpg3BLDsBjU4TUr7IyUf6yQ1NGFSbLUZITKllnJLkCgSlm4lalgXJYQIDAQAB
+
+
+BIND zone file formatted:
+
+jun2026._domainkey    IN   TXT (
+	"v=DKIM1;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAubHValr4HmNo9zKRdi6p6N0YjeILpqo9d1mcw5wAdzinDf600Uh08hEy"
+	"jcGz2RtrHj+rAPGETJvQ/OJnGV27KfeKo3TwiX5U6QRPDWgMq1/5VvQxLnCasZU+oIzlEHIvvgMtCuLoeCsXtDzJpAc9LARLI8ADBqoV9nsy5A"
+	"8ape6lJ3qfBcAnb8Y/CjBbuMLyNuG2O/J53ScQGBkafiiYsxUXct98ADmcBpYbdJUoypImmBm0kC0rKk7J9AGygEyXbPaycaZqCh1AclVQi09E"
+	"K3KtyGhdJplxpg3BLDsBjU4TUr7IyUf6yQ1NGFSbLUZITKllnJLkCgSlm4lalgXJYQIDAQAB"
+        )
+
+Tell the world that the ONLY mail servers that send mail from this domain are DKIM signed and/or bear our MX and A records.
+
+With SPF:
+
+        SPF "v=spf1 mx a -all"
+        TXT "v=spf1 mx a -all"
+
+With DMARC:
+
+_dmarc  TXT "v=DMARC1; p=reject; adkim=s; aspf=r; rua=mailto:dmarc-feedback@relaystack.local; ruf=mailto:dmarc-feedback@relaystack.local; pct=100"
+
+For more information about DKIM and SPF policy,
+the documentation within each plugin contains a longer discussion and links to more detailed information:
+
+   haraka -h dkim
+   haraka -h spf
+

@@ -14,7 +14,8 @@
     "paths": {
       "@relaystack/domain": ["packages/domain/src/index.ts"],
       "@relaystack/shared": ["packages/shared/src/index.ts"],
-      "@relaystack/config": ["packages/config/src/index.ts"]
+      "@relaystack/config": ["packages/config/src/index.ts"],
+      "@relaystack/queue": ["packages/queue/src/index.ts"]
     }
   }
 }

@@ -10,7 +10,9 @@ const configSchema = z.object({
   REDIS_URL: z.string().default("redis://localhost:6379"),
   RABBITMQ_URL: z.string().default("amqp://localhost:5672"),
   MTA_HOST: z.string().default("127.0.0.1"),
-  MTA_PORT: z.coerce.number().int().positive().default(2525)
+  MTA_PORT: z.coerce.number().int().positive().default(2525),
+  MTA_MODE: z.enum(["capture", "deliver"]).default("deliver"),
+  EMAIL_SENDING_DOMAIN: z.string().default("relaystack.local")
 });
 
 export type RelayStackConfig = ReturnType<typeof loadConfig>;
@@ -28,6 +30,8 @@ export function loadConfig() {
     redisUrl: parsed.REDIS_URL,
     rabbitmqUrl: parsed.RABBITMQ_URL,
     mtaHost: parsed.MTA_HOST,
-    mtaPort: parsed.MTA_PORT
+    mtaPort: parsed.MTA_PORT,
+    mtaMode: parsed.MTA_MODE,
+    emailSendingDomain: parsed.EMAIL_SENDING_DOMAIN
   };
 }

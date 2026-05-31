@@ -10,9 +10,11 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@prisma/client": "^5.22.0",
     "@relaystack/config": "0.1.0",
     "@relaystack/domain": "0.1.0",
+    "@relaystack/queue": "0.1.0",
+    "@relaystack/shared": "0.1.0",
     "pino": "^9.5.0"
   }
 }
-

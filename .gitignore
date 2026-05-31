@@ -28,3 +28,10 @@ pnpm-lock.yaml
 .DS_Store
 Thumbs.db
 
+# MTA runtime artifacts
+apps/mta/var/
+apps/mta/queue/
+apps/mta/config/dkim/**/private
+apps/mta/config/tls_key.pem
+apps/mta/config/tls_cert.pem
+
